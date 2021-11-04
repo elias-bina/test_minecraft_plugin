@@ -51,6 +51,9 @@ class SortbyName implements Comparator<ItemStack>
     public int compare(ItemStack a, ItemStack b)
     {
         if(a == null){
+            if(b == null){
+                return 0;
+            }
             return 1;
         }
         if(b == null){
