@@ -2,3 +2,9 @@ main: "org.ensimag.myplugin.PluginMain"
 version: "1.0"
 name: "test-minecraft-plugin"
 api-version: "1.17"
+
+commands:
+   uwu:
+      description: Donne du diams + brique lol
+      usage: /uwu
+
