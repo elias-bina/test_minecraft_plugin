@@ -15,15 +15,15 @@ public class ListenerBasic implements Listener{
         event.setJoinMessage("Bah alors " + event.getPlayer().getName() + ", on a pas la ref ?");
      }
 
-     // Executes before the second method because it has a much lower priority.
-     @EventHandler (priority = EventPriority.LOWEST)
-     public void onPlayerChat1(AsyncPlayerChatEvent event) {
-         event.setCancelled(true);
-     }
+    //  // Executes before the second method because it has a much lower priority.
+    //  @EventHandler (priority = EventPriority.LOWEST)
+    //  public void onPlayerChat1(AsyncPlayerChatEvent event) {
+    //      event.setCancelled(true);
+    //  }
 
-     // Will not execute unless another listener with a  lower priority has uncancelled the event.
-     @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
-     public void onPlayerChat2(AsyncPlayerChatEvent event) {
-         System.out.println("This shouldn't be executing.");
-     }
+    //  // Will not execute unless another listener with a  lower priority has uncancelled the event.
+    //  @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    //  public void onPlayerChat2(AsyncPlayerChatEvent event) {
+    //      System.out.println("This shouldn't be executing.");
+    //  }
 }
