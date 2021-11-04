@@ -14,10 +14,9 @@ public class ChestSortingListener implements Listener{
         Inventory inv = event.getClickedInventory();
         if(inv.getHolder() instanceof BlockInventoryHolder){
             Bukkit.getLogger().info("Chest Opened");
-            return;
+        }else{
+            Bukkit.getLogger().info("Not a chest");
         }
-        Bukkit.getLogger().info("Not a chest");
-        return;
     }
 
 
