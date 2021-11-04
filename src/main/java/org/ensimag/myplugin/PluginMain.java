@@ -8,6 +8,8 @@ public class PluginMain extends JavaPlugin {
         getLogger().info("Hello, SpigotMC!");
 
         this.getCommand("uwu").setExecutor(new CommandBasic());
+        getServer().getPluginManager().registerEvents(new ListenerBasic(), this);
+        
     }
     @Override
     public void onDisable() {

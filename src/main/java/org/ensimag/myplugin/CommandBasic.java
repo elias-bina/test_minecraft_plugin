@@ -29,7 +29,7 @@ public class CommandBasic implements CommandExecutor{
             player.getInventory().addItem(bricks, diamond);
 
             Bukkit.getLogger().info("Miam");
-            Bukkit.broadcastMessage("Regardez, "+player.getDisplayName()+" triche");
+            Bukkit.broadcastMessage("Regardez, "+player.getName()+" triche");
 
         }
 
