@@ -1,0 +1,3 @@
+main : test.App
+name: Big_Test
+version: 0.1
