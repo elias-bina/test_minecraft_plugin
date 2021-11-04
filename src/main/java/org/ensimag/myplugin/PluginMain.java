@@ -9,6 +9,7 @@ public class PluginMain extends JavaPlugin {
 
         this.getCommand("uwu").setExecutor(new CommandBasic());
         getServer().getPluginManager().registerEvents(new ListenerBasic(), this);
+        getServer().getPluginManager().registerEvents(new ChestSortingListener(), this);
         
     }
     @Override
