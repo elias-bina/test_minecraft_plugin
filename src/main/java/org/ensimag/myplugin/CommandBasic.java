@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
+
 import org.bukkit.Material;
 
 public class CommandBasic implements CommandExecutor{
@@ -28,7 +29,7 @@ public class CommandBasic implements CommandExecutor{
             player.getInventory().addItem(bricks, diamond);
 
 
-            Bukkit.getLogger().info("Miam");
+            Bukkit.broadcastMessage("Regardez, il triche");
 
         }
 
