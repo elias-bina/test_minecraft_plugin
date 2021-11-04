@@ -35,7 +35,7 @@ public class ChestSortingListener implements Listener{
 
 
         Bukkit.getLogger().info(items.toString());
-        ItemStack[] i = (ItemStack[])items.toArray();
+        ItemStack[] i = items.toArray(ItemStack[]::new);
 
         inv.setContents(i);
     }
@@ -51,10 +51,10 @@ class SortbyName implements Comparator<ItemStack>
     public int compare(ItemStack a, ItemStack b)
     {
         if(a == null){
-            return -1;
+            return 1;
         }
         if(b == null){
-            return 1;
+            return -1;
         }
         return a.getType().compareTo(b.getType()) ;
     }
