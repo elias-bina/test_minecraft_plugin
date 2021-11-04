@@ -27,10 +27,17 @@ public class ChestSortingListener implements Listener{
     void sortInventory(Inventory inv){
 
         List<ItemStack> items = Arrays.asList(inv.getContents());
+
+
         Bukkit.getLogger().info(items.toString());
         items.sort(new SortbyName());
         inv.clear();
-        inv.setContents((ItemStack[])items.toArray());
+
+
+        Bukkit.getLogger().info(items.toString());
+        ItemStack[] i = (ItemStack[])items.toArray();
+
+        inv.setContents(i);
     }
 
 }
@@ -43,6 +50,9 @@ class SortbyName implements Comparator<ItemStack>
     // roll number
     public int compare(ItemStack a, ItemStack b)
     {
+        if(a == null){
+            return -1;
+        }
         return a.getType().compareTo(b.getType()) ;
     }
 }
