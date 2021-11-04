@@ -1,6 +1,7 @@
 package org.ensimag.myplugin;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.ensimag.myplugin.chestSorting.ChestSortingListener;
 
 public class PluginMain extends JavaPlugin {
     @Override
@@ -9,6 +10,7 @@ public class PluginMain extends JavaPlugin {
 
         this.getCommand("uwu").setExecutor(new CommandBasic());
         getServer().getPluginManager().registerEvents(new ListenerBasic(), this);
+        getServer().getPluginManager().registerEvents(new ChestSortingListener(), this);
         
     }
     @Override
