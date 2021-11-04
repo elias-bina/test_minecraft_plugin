@@ -28,7 +28,7 @@ public class CommandBasic implements CommandExecutor{
             // Give the player our items (comma-seperated list of all ItemStack)
             player.getInventory().addItem(bricks, diamond);
 
-
+            Bukkit.getLogger().info("Miam");
             Bukkit.broadcastMessage("Regardez, il triche");
 
         }
