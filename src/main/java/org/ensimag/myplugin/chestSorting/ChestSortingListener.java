@@ -53,6 +53,9 @@ class SortbyName implements Comparator<ItemStack>
         if(a == null){
             return -1;
         }
+        if(b == null){
+            return 1;
+        }
         return a.getType().compareTo(b.getType()) ;
     }
 }
