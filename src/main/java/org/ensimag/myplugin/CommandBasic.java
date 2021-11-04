@@ -1,6 +1,7 @@
 package org.ensimag.myplugin;
 
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
@@ -25,6 +26,9 @@ public class CommandBasic implements CommandExecutor{
 
             // Give the player our items (comma-seperated list of all ItemStack)
             player.getInventory().addItem(bricks, diamond);
+
+
+            Bukkit.getLogger().info("Miam");
 
         }
 

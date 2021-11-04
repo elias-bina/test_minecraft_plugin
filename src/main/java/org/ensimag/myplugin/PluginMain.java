@@ -7,7 +7,6 @@ public class PluginMain extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Hello, SpigotMC!");
 
-        // Register our command "kit" (set an instance of your command class as executor)
         this.getCommand("uwu").setExecutor(new CommandBasic());
     }
     @Override
