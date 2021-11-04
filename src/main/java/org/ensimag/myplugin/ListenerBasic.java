@@ -13,7 +13,7 @@ public class ListenerBasic implements Listener{
      public void onPlayerJoin(PlayerJoinEvent event) {
         
         event.setJoinMessage("Bah alors " + event.getPlayer().getName() + ", on a pas la ref ?");
-     }
+    }
 
     //  // Executes before the second method because it has a much lower priority.
     //  @EventHandler (priority = EventPriority.LOWEST)
