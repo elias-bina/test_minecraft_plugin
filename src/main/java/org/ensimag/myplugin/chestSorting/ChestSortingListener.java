@@ -27,6 +27,7 @@ public class ChestSortingListener implements Listener{
     void sortInventory(Inventory inv){
 
         List<ItemStack> items = Arrays.asList(inv.getContents());
+        Bukkit.getLogger().info(items.toString());
         items.sort(new SortbyName());
         inv.clear();
         inv.setContents((ItemStack[])items.toArray());
