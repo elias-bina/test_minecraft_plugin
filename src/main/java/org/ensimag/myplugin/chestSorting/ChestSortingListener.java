@@ -21,6 +21,7 @@ public class ChestSortingListener implements Listener{
         if(inv.getHolder() instanceof BlockInventoryHolder || inv.getHolder() instanceof DoubleChest){
             Bukkit.getLogger().info("Chest Opened");
             sortInventory(inv);
+            compressInventory(inv);
         }
     }
 
@@ -29,15 +30,19 @@ public class ChestSortingListener implements Listener{
         List<ItemStack> items = Arrays.asList(inv.getContents());
 
 
-        Bukkit.getLogger().info(items.toString());
+        // Bukkit.getLogger().info(items.toString());
         items.sort(new SortbyName());
         inv.clear();
 
 
-        Bukkit.getLogger().info(items.toString());
+        // Bukkit.getLogger().info(items.toString());
         ItemStack[] i = items.toArray(ItemStack[]::new);
 
         inv.setContents(i);
+    }
+
+    void compressInventory(Inventory inv){
+        
     }
 
 }
