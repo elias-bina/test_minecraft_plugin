@@ -1,10 +1,4 @@
-big_test/target/big_test-1.0.jar
-big_test/target/classes/test/App.class
-big_test/target/maven-archiver/pom.properties
-big_test/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
-big_test/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
-big_test/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
-big_test/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst
-big_test/target/surefire-reports/TEST-test.AppTest.xml
-big_test/target/surefire-reports/test.AppTest.txt
-big_test/target/test-classes/test/AppTest.class
+big_test/target/
+big_test/.settings/
+big_test/.classpath
+big_test/.project
