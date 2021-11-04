@@ -1,0 +1,3 @@
+main: "org.ensimag.myplugin.PluginMain"
+version: "1.0"
+name: "test-minecraft-plugin"

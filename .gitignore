@@ -1,4 +1,2 @@
-big_test/target/
-big_test/.settings/
-big_test/.classpath
-big_test/.project
+target/
+.idea
