@@ -5,12 +5,14 @@ import org.bukkit.event.Listener;
 import java.util.*;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.yaml.snakeyaml.DumperOptions.NonPrintableStyle;
 
 
 public class ChestSortingListener implements Listener{
@@ -43,6 +45,34 @@ public class ChestSortingListener implements Listener{
 
     void compressInventory(Inventory inv){
         
+        List<ItemStack> items = Arrays.asList(inv.getContents());
+        List<ItemStack> res = new ArrayList<ItemStack>();
+
+        Material holdType = null;
+        int maxNb = 0;
+        int actualNb = 0;
+        
+        for (ItemStack stack : items) {
+            
+            // if(holdType != stack.getType()){
+            //     if(holdType != null && actualNb != 0){
+            //         res.add(new ItemStack(holdType,actualNb));
+            //     }
+            //     holdType = stack.getType();
+            //     maxNb = stack.getMaxStackSize();
+            //     actualNb = 0;
+            // }
+
+            Bukkit.getLogger().info(stack.toString() + " : " + stack.hasItemMeta() + "\n");
+
+            //TODO : Faire gaffe à pas stack les trucs rename & enchant (& surement faire gaffe au nbt genre feux d'artifice)
+
+
+            
+
+
+        }
+
     }
 
 }
