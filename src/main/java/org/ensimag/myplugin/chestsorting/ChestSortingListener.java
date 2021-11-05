@@ -19,10 +19,12 @@ public class ChestSortingListener implements Listener{
     @EventHandler
     public void onInventoryClick(InventoryOpenEvent event){
         Inventory inv = event.getInventory();
-        if(inv.getHolder() instanceof BlockInventoryHolder || inv.getHolder() instanceof DoubleChest){
-            Bukkit.getLogger().info("Chest Opened");
-            sortInventory(inv);
-            compressInventory(inv);
+        if (SortingCommand.getInstance().getChestSortingPerPlayer().get(event.getPlayer().getName())) {
+            if (inv.getHolder() instanceof BlockInventoryHolder || inv.getHolder() instanceof DoubleChest) {
+                Bukkit.getLogger().info("Chest Opened");
+                sortInventory(inv);
+                compressInventory(inv);
+            }
         }
     }
 
