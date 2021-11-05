@@ -52,9 +52,6 @@ public class ChestSortingListener implements Listener{
         int maxNb = 0;
         int actualNb = 0;
         
-
-        Bukkit.getLogger().info(items.toString());
-        Bukkit.getLogger().info("\n\n\n\n");
         for (ItemStack stack : items) {
 
             if(stack == null){
@@ -85,9 +82,9 @@ public class ChestSortingListener implements Listener{
             }
 
         }
-        Bukkit.getLogger().info(res.toString());
-        Bukkit.getLogger().info("\n\n\n\n");
 
+        ItemStack[] i = items.toArray(ItemStack[]::new);
+        inv.setContents(i);
     }
 
 }
