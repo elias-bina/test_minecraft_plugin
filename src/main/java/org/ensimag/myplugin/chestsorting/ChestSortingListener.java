@@ -22,7 +22,7 @@ public class ChestSortingListener implements Listener{
         Boolean isOn = SortingCommand.getInstance().getChestSortingPerPlayer().get(event.getPlayer().getName());
         if (isOn != null && isOn) {
             if (inv.getHolder() instanceof BlockInventoryHolder || inv.getHolder() instanceof DoubleChest) {
-                Bukkit.getLogger().info("Chest Opened");
+                Bukkit.getLogger().info("Chest sorted");
                 sortInventory(inv);
                 compressInventory(inv);
             }
@@ -102,8 +102,6 @@ public class ChestSortingListener implements Listener{
 
 class SortbyName implements Comparator<ItemStack>
 {
-    // Used for sorting in ascending order of
-    // roll number
     public int compare(ItemStack a, ItemStack b)
     {
         if(a == null){

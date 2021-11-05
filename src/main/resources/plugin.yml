@@ -9,5 +9,5 @@ commands:
       usage: /uwu
    chestsort:
       description: Active/Désactive la triage des coffres
-      usage: /chestsort true/false
+      usage: /chestsort [true|false]
 
