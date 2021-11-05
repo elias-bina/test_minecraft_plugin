@@ -12,7 +12,6 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.yaml.snakeyaml.DumperOptions.NonPrintableStyle;
 
 
 public class ChestSortingListener implements Listener{
@@ -55,26 +54,38 @@ public class ChestSortingListener implements Listener{
         int actualNb = 0;
         
         for (ItemStack stack : items) {
-            
-            // if(holdType != stack.getType()){
-            //     if(holdType != null && actualNb != 0){
-            //         res.add(new ItemStack(holdType,actualNb));
-            //     }
-            //     holdType = stack.getType();
-            //     maxNb = stack.getMaxStackSize();
-            //     actualNb = 0;
-            // }
-            
-            //Bukkit.getLogger().info(stack.toString() + " : " + stack.hasItemMeta() + "\n");
 
-            //TODO : Faire gaffe à pas stack les trucs rename & enchant (& surement faire gaffe au nbt genre feux d'artifice)
+            if(stack == null){
+                res.add(new ItemStack(holdType,actualNb));
+                break;
+            } else {
 
+                if(holdType != stack.getType()){
+                    if(holdType != null && actualNb != 0){
+                        res.add(new ItemStack(holdType,actualNb));
+                    }
+                    holdType = stack.getType();
+                    maxNb = stack.getMaxStackSize();
+                    actualNb = 0;
+                }
 
-            
-
+                // Bukkit.getLogger().info(stack.toString() + " : " + stack.hasItemMeta() + "\n");
+                
+                if(stack.hasItemMeta()){
+                    res.add(stack);
+                }else {
+                    actualNb = actualNb + stack.getAmount();
+                    if(actualNb >= maxNb){
+                        res.add(new ItemStack(holdType,maxNb));
+                        actualNb -= maxNb;
+                    }
+                }
+            }
 
         }
 
+        ItemStack[] i = res.toArray(ItemStack[]::new);
+        inv.setContents(i);
     }
 
 }
