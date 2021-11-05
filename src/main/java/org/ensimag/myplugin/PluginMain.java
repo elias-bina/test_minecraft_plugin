@@ -1,7 +1,7 @@
 package org.ensimag.myplugin;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import org.ensimag.myplugin.chestSorting.ChestSortingListener;
+import org.ensimag.myplugin.chestsorting.ChestSortingListener;
 
 public class PluginMain extends JavaPlugin {
     @Override

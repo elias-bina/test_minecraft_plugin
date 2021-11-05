@@ -1,4 +1,4 @@
-package org.ensimag.myplugin.chestSorting;
+package org.ensimag.myplugin.chestsorting;
 
 import org.bukkit.event.Listener;
 
