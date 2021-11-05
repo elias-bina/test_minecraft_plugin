@@ -54,14 +54,14 @@ public class ChestSortingListener implements Listener{
         
         for (ItemStack stack : items) {
             
-            // if(holdType != stack.getType()){
-            //     if(holdType != null && actualNb != 0){
-            //         res.add(new ItemStack(holdType,actualNb));
-            //     }
-            //     holdType = stack.getType();
-            //     maxNb = stack.getMaxStackSize();
-            //     actualNb = 0;
-            // }
+            if(holdType != stack.getType()){
+                if(holdType != null && actualNb != 0){
+                    res.add(new ItemStack(holdType,actualNb));
+                }
+                holdType = stack.getType();
+                maxNb = stack.getMaxStackSize();
+                actualNb = 0;
+            }
             
             if(stack != null){
                 Bukkit.getLogger().info(stack.toString() + " : " + stack.hasItemMeta() + "\n");
