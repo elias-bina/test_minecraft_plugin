@@ -2,30 +2,53 @@ package org.ensimag.myplugin.blockreplacing;
 
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-
-import java.util.*;
+import org.bukkit.event.player.PlayerItemBreakEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 
-public class BlockReplacingListener implements Listener{
+public class ItemReplacingListener implements Listener{
 
     @EventHandler
     public void onBlockPlaced(BlockPlaceEvent event){
         // Looks if the hand is empty
         if(event.getItemInHand().getAmount() == 1){
-            replaceBlock(event.getItemInHand(), event.getHand(), event.getPlayer());
+            replaceItem(event.getItemInHand(), event.getHand(), event.getPlayer());
         }
     }
 
-    void replaceBlock(ItemStack stack, EquipmentSlot hand, Player player){
+    @EventHandler
+    public void onPlayerItemBreak(PlayerItemBreakEvent event){
+        //TODO: Fix shields (wtf ?)
+        if(event.getBrokenItem().getType() != Material.SHIELD){
+            replaceItem(event.getBrokenItem(), event.getPlayer());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerItemConsume(PlayerItemConsumeEvent event){
+        if(event.getItem().getAmount() == 1){
+            replaceItem(event.getItem(), event.getPlayer());
+        }
+    }
+
+    void replaceItem(ItemStack stack, Player player){
+        PlayerInventory inv = player.getInventory();
+        if(inv.getItem(inv.getHeldItemSlot()) != null && inv.getItem(inv.getHeldItemSlot()).equals(stack)){
+            replaceItem(stack, EquipmentSlot.HAND, player);
+        }else{
+            replaceItem(stack, EquipmentSlot.OFF_HAND, player);
+        }
+    }
+
+    void replaceItem(ItemStack stack, EquipmentSlot hand, Player player){
 
         Bukkit.getLogger().info(hand.toString() + " slot empty of " + stack.getType());
         
@@ -39,7 +62,10 @@ public class BlockReplacingListener implements Listener{
             if(hand == EquipmentSlot.HAND){
                 if(slot == inv.getHeldItemSlot()){
                     inv.clear(slot);
-                    if(!inv.contains(itemType)) return;
+                    if(!inv.contains(itemType)) {
+                        Bukkit.getLogger().info("OOPSIE");
+                        return;
+                    }
                     slot = inv.first(itemType);
                     item = inv.getItem(slot);
                 }

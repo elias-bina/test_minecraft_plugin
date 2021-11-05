@@ -13,7 +13,7 @@ public class PluginMain extends JavaPlugin {
         this.getCommand("chestsort").setExecutor(SortingCommand.getInstance());
         getServer().getPluginManager().registerEvents(new ListenerBasic(), this);
         getServer().getPluginManager().registerEvents(new ChestSortingListener(), this);
-        getServer().getPluginManager().registerEvents(new BlockReplacingListener(), this);
+        getServer().getPluginManager().registerEvents(new ItemReplacingListener(), this);
         
     }
     @Override
