@@ -54,6 +54,7 @@ public class ChestSortingListener implements Listener{
         
 
         Bukkit.getLogger().info(items.toString());
+        Bukkit.getLogger().info("\n\n\n\n");
         for (ItemStack stack : items) {
 
             if(stack == null){
@@ -85,6 +86,7 @@ public class ChestSortingListener implements Listener{
 
         }
         Bukkit.getLogger().info(res.toString());
+        Bukkit.getLogger().info("\n\n\n\n");
 
     }
 
