@@ -82,7 +82,7 @@ public class ChestSortingListener implements Listener{
 
         }
 
-        ItemStack[] i = items.toArray(ItemStack[]::new);
+        ItemStack[] i = res.toArray(ItemStack[]::new);
         inv.setContents(i);
     }
 
