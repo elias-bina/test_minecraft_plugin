@@ -12,7 +12,6 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.yaml.snakeyaml.DumperOptions.NonPrintableStyle;
 
 
 public class ChestSortingListener implements Listener{
