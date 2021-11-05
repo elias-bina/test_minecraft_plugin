@@ -7,4 +7,7 @@ commands:
    uwu:
       description: Donne du diams + brique lol
       usage: /uwu
+   chestsort:
+      description: Active/Désactive la triage des coffres
+      usage: /chestsort true/false
 

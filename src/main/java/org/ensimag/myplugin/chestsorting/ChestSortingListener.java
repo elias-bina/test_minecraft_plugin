@@ -19,7 +19,8 @@ public class ChestSortingListener implements Listener{
     @EventHandler
     public void onInventoryClick(InventoryOpenEvent event){
         Inventory inv = event.getInventory();
-        if (SortingCommand.getInstance().getChestSortingPerPlayer().get(event.getPlayer().getName())) {
+        Boolean isOn = SortingCommand.getInstance().getChestSortingPerPlayer().get(event.getPlayer().getName());
+        if (isOn != null && isOn) {
             if (inv.getHolder() instanceof BlockInventoryHolder || inv.getHolder() instanceof DoubleChest) {
                 Bukkit.getLogger().info("Chest Opened");
                 sortInventory(inv);
@@ -45,6 +46,8 @@ public class ChestSortingListener implements Listener{
     }
 
     void compressInventory(Inventory inv){
+
+        int len = inv.getSize();
         
         List<ItemStack> items = Arrays.asList(inv.getContents());
         List<ItemStack> res = new ArrayList<ItemStack>();
@@ -83,6 +86,11 @@ public class ChestSortingListener implements Listener{
             }
 
         }
+
+        while(res.size() < len){
+            res.add(null);
+        }
+
 
         ItemStack[] i = res.toArray(ItemStack[]::new);
         inv.setContents(i);

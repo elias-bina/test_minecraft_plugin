@@ -37,8 +37,11 @@ public class SortingCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
             String isOn = args[0];
-            if (isOn.equals("true") || isOn.equals("false"))
-                chestSortingPerPlayer.put(player.getName(), Boolean.parseBoolean(args[0]));
+            if (isOn.equals("true") || isOn.equals("false")){
+                boolean on = Boolean.parseBoolean(args[0]);
+                chestSortingPerPlayer.put(player.getName(), on);
+                player.sendMessage("Your chests will "+ (on ? "":"not ") +"be sorted."); 
+            }
             else
                 return false;
         }
