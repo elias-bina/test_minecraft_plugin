@@ -63,8 +63,9 @@ public class ChestSortingListener implements Listener{
             //     actualNb = 0;
             // }
             
-            //Bukkit.getLogger().info(stack.toString() + " : " + stack.hasItemMeta() + "\n");
-
+            if(stack != null){
+                Bukkit.getLogger().info(stack.toString() + " : " + stack.hasItemMeta() + "\n");
+            }
             //TODO : Faire gaffe à pas stack les trucs rename & enchant (& surement faire gaffe au nbt genre feux d'artifice)
 
 
