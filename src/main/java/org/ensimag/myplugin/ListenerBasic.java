@@ -45,7 +45,9 @@ public class ListenerBasic implements Listener{
     @EventHandler
     public void onPlayerToggleSneak(PlayerToggleSneakEvent event){
         Player player = event.getPlayer();
-        if(event.isSneaking()){
+        Boolean isOn = NinjaModeCommand.getInstance().getNinjaModePerPlayer().get(event.getPlayer().getName());
+        if (isOn != null && isOn) {
+            if(event.isSneaking()){
 
             BossBar bossBar = BossBar.bossBar(Component.text(player.getName() + " est un ninja"), 
                                               BossBar.MAX_PROGRESS, 
@@ -58,13 +60,14 @@ public class ListenerBasic implements Listener{
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 1, false));
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000, 1, false));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 10000, 16, false));
-        } else {
-            BossBar bossBar = playersBossBar.get(player.getName());
-            Bukkit.getServer().hideBossBar(bossBar);
-            
-            player.removePotionEffect(PotionEffectType.BLINDNESS);
-            player.removePotionEffect(PotionEffectType.INVISIBILITY);
-            player.removePotionEffect(PotionEffectType.SLOW_FALLING);
+            } else {
+                BossBar bossBar = playersBossBar.get(player.getName());
+                Bukkit.getServer().hideBossBar(bossBar);
+                
+                player.removePotionEffect(PotionEffectType.BLINDNESS);
+                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                player.removePotionEffect(PotionEffectType.SLOW_FALLING);
+            }
         }
     }
 

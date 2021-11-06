@@ -36,7 +36,7 @@ public class ChestSortingListener implements Listener{
     public void onInventoryClick(InventoryOpenEvent event){
         Inventory inv = event.getInventory();
         Boolean isOn = SortingCommand.getInstance().getChestSortingPerPlayer().get(event.getPlayer().getName());
-        if (isOn != null && isOn) {
+        if (isOn == null || isOn) {
             if ((inv.getHolder() instanceof BlockInventoryHolder && inv.getSize() > 5) || inv.getHolder() instanceof DoubleChest) {
                 Bukkit.getLogger().info("Chest sorted");
                 sortInventory(inv, false); // Sorts for compressing
