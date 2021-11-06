@@ -37,11 +37,36 @@ public class ListenerBasic implements Listener{
     }
 
     @EventHandler
-     public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(PlayerJoinEvent event) {
         event.joinMessage(Component.text("Bah alors " + event.getPlayer().getName() + ", on a pas la ref ?"));
     }
 
-        
+
+    @EventHandler
+    public void onPlayerToggleSneak(PlayerToggleSneakEvent event){
+        Player player = event.getPlayer();
+        if(event.isSneaking()){
+
+            BossBar bossBar = BossBar.bossBar(Component.text(player.getName() + " est un ninja"), 
+                                              BossBar.MAX_PROGRESS, 
+                                              BossBar.Color.PURPLE, 
+                                              BossBar.Overlay.PROGRESS);
+            
+            playersBossBar.put(player.getName(), bossBar);
+            Bukkit.getServer().showBossBar(bossBar);
+
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 10000, 1, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 10000, 1, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 10000, 16, false));
+        } else {
+            BossBar bossBar = playersBossBar.get(player.getName());
+            Bukkit.getServer().hideBossBar(bossBar);
+            
+            player.removePotionEffect(PotionEffectType.BLINDNESS);
+            player.removePotionEffect(PotionEffectType.INVISIBILITY);
+            player.removePotionEffect(PotionEffectType.SLOW_FALLING);
+        }
+    }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event){
