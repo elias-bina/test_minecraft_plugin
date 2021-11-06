@@ -75,7 +75,7 @@ public class ChestSortingListener implements Listener{
         for (ItemStack stack : items) {
 
             if(stack == null){
-                res.add(new ItemStack(holdType,actualNb));
+                if(holdType != null) res.add(new ItemStack(holdType,actualNb));
                 break;
             } else {
 
