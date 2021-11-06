@@ -16,6 +16,20 @@ import org.bukkit.inventory.ItemStack;
 
 public class ChestSortingListener implements Listener{
 
+    private static ChestSortingListener instance;
+
+    private ChestSortingListener(){
+
+    }
+
+    public static ChestSortingListener getInstance(){
+        if (instance == null) {
+            instance = new ChestSortingListener();
+        }
+        return instance;
+    }
+
+
     @EventHandler
     public void onInventoryClick(InventoryOpenEvent event){
         Inventory inv = event.getInventory();
@@ -35,6 +49,8 @@ public class ChestSortingListener implements Listener{
 
 
         // Bukkit.getLogger().info(items.toString());
+
+        // TODO: More inteligent sorting
         items.sort(new SortbyName());
         inv.clear();
 

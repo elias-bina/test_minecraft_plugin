@@ -16,6 +16,19 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class ItemReplacingListener implements Listener{
 
+    private static ItemReplacingListener instance;
+
+    private ItemReplacingListener(){
+
+    }
+
+    public static ItemReplacingListener getInstance(){
+        if (instance == null) {
+            instance = new ItemReplacingListener();
+        }
+        return instance;
+    }
+
     @EventHandler
     public void onBlockPlaced(BlockPlaceEvent event){
         // Looks if the hand is empty
@@ -38,6 +51,8 @@ public class ItemReplacingListener implements Listener{
             replaceItem(event.getItem(), event.getPlayer());
         }
     }
+
+    //TODO: Add thrown objects
 
     void replaceItem(ItemStack stack, Player player){
         PlayerInventory inv = player.getInventory();

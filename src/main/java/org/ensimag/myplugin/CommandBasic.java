@@ -6,7 +6,10 @@ import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 
+import net.kyori.adventure.text.Component;
+
 import org.bukkit.Material;
+import org.bukkit.Server;
 
 public class CommandBasic implements CommandExecutor{
     // This method is called, when somebody uses our command
@@ -29,7 +32,8 @@ public class CommandBasic implements CommandExecutor{
             player.getInventory().addItem(bricks, diamond);
 
             Bukkit.getLogger().info("Miam");
-            Bukkit.broadcastMessage("Regardez, "+player.getName()+" triche");
+
+            Bukkit.broadcast(Component.text("Regardez, "+player.getName()+" triche"), Server.BROADCAST_CHANNEL_USERS);
 
         }
 
