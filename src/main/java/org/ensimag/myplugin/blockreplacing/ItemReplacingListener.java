@@ -50,7 +50,7 @@ public class ItemReplacingListener implements Listener{
     @EventHandler
     public void onPlayerItemConsume(PlayerItemConsumeEvent event){
         Bukkit.getLogger().info("Consume");
-        if(event.getItem().getAmount() == 1){
+        if(event.getItem().getAmount() == 1 && !event.getItem().hasItemMeta()){
             Bukkit.getLogger().info("Avaled " + event.getItem().toString());
             replaceItem(event.getItem(), event.getPlayer());
         }
