@@ -34,7 +34,7 @@ public class ItemReplacingListener implements Listener{
         // Looks if the hand is empty
         if(event.getItemInHand().getAmount() == 1 && event.getBlockPlaced().getType().equals(event.getItemInHand().getType())){
             
-            Bukkit.getLogger().info("Block Placed" + event.getItemInHand().toString());
+            
             replaceItem(event.getItemInHand(), event.getHand(), event.getPlayer());
         }
     }
@@ -51,6 +51,7 @@ public class ItemReplacingListener implements Listener{
     public void onPlayerItemConsume(PlayerItemConsumeEvent event){
         Bukkit.getLogger().info("Consume");
         if(event.getItem().getAmount() == 1){
+            Bukkit.getLogger().info("Avaled " + event.getItem().toString());
             replaceItem(event.getItem(), event.getPlayer());
         }
     }
