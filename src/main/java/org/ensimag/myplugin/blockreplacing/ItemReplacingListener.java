@@ -49,9 +49,8 @@ public class ItemReplacingListener implements Listener{
 
     @EventHandler
     public void onPlayerItemConsume(PlayerItemConsumeEvent event){
-        Bukkit.getLogger().info("Consume");
+        // Pour eviter les potions consommées
         if(event.getItem().getAmount() == 1 && !event.getItem().hasItemMeta()){
-            Bukkit.getLogger().info("Avaled " + event.getItem().toString());
             replaceItem(event.getItem(), event.getPlayer());
         }
     }
