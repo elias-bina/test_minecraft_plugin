@@ -26,6 +26,10 @@ public class SortingCommand implements CommandExecutor {
         return instance;
     }
 
+    public static void deleteInstance() {
+        instance = null;
+    }
+
     public Map<String, Boolean> getChestSortingPerPlayer() {
         return chestSortingPerPlayer;
     }
