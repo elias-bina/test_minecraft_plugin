@@ -54,7 +54,7 @@ public class ChestSortingListener implements Listener{
             List<List<ItemStack>> itemLists = groupItems(items);
             items = smartSort(itemLists, inv.getSize());
         } else {
-            items.sort(new SortbyName());
+            items.sort(new SortByName());
         }
 
         inv.clear();
@@ -133,7 +133,7 @@ public class ChestSortingListener implements Listener{
         itemMap.forEach((k, v) -> res.add(v)); 
 
         // Sort by list size
-        res.sort(new SortbyLen());
+        res.sort(new SortByLen());
 
         return res;
     }
@@ -203,40 +203,4 @@ public class ChestSortingListener implements Listener{
     }
 
 
-}
-
-
-
-class SortbyName implements Comparator<ItemStack>
-{
-    public int compare(ItemStack a, ItemStack b)
-    {
-        if(a == null){
-            if(b == null){
-                return 0;
-            }
-            return 1;
-        }
-        if(b == null){
-            return -1;
-        }
-        return a.getType().compareTo(b.getType()) ;
-    }
-}
-
-class SortbyLen implements Comparator<List<ItemStack>>
-{
-    public int compare(List<ItemStack> a, List<ItemStack> b)
-    {
-        if(a == null){
-            if(b == null){
-                return 0;
-            }
-            return 1;
-        }
-        if(b == null){
-            return -1;
-        }
-        return b.size() - a.size();
-    }
 }
