@@ -32,7 +32,9 @@ public class ItemReplacingListener implements Listener{
     @EventHandler
     public void onBlockPlaced(BlockPlaceEvent event){
         // Looks if the hand is empty
-        if(event.getItemInHand().getAmount() == 1){
+        if(event.getItemInHand().getAmount() == 1 && event.getBlockPlaced().getType().equals(event.getItemInHand().getType())){
+            
+            
             replaceItem(event.getItemInHand(), event.getHand(), event.getPlayer());
         }
     }
@@ -47,7 +49,8 @@ public class ItemReplacingListener implements Listener{
 
     @EventHandler
     public void onPlayerItemConsume(PlayerItemConsumeEvent event){
-        if(event.getItem().getAmount() == 1){
+        // Pour eviter les potions consommées
+        if(event.getItem().getAmount() == 1 && !event.getItem().hasItemMeta()){
             replaceItem(event.getItem(), event.getPlayer());
         }
     }
