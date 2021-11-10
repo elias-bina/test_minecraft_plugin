@@ -34,16 +34,16 @@ public class SortingCommandTest {
     @Test
     @DisplayName("No argument")
     void testNoArgument() {
-        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{});
+        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{});
         Assertions.assertFalse(response);
     }
 
     @Test
     @DisplayName("Wrong argument")
     void testWrongArgument() {
-        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{"foo"});
+        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"foo"});
         Assertions.assertFalse(response);
     }
 
@@ -52,8 +52,8 @@ public class SortingCommandTest {
     void testEmptyToFalse() {
         Assertions.assertNull(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
 
-        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{"false"});
+        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"false"});
         Assertions.assertTrue(response);
 
         Assertions.assertFalse(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
@@ -64,8 +64,8 @@ public class SortingCommandTest {
     void testEmptyToTrue() {
         Assertions.assertNull(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
 
-        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{"true"});
+        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"true"});
         Assertions.assertTrue(response);
 
         Assertions.assertTrue(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
@@ -76,8 +76,8 @@ public class SortingCommandTest {
     void testFalseToTrue() {
         sortingCommand.getChestSortingPerPlayer().put("Dummy", false);
 
-        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{"true"});
+        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"true"});
         Assertions.assertTrue(response);
 
         Assertions.assertTrue(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
@@ -88,8 +88,8 @@ public class SortingCommandTest {
     void testTrueToFalse() {
         sortingCommand.getChestSortingPerPlayer().put("Dummy", true);
 
-        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{"false"});
+        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"false"});
         Assertions.assertTrue(response);
 
         Assertions.assertFalse(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
@@ -100,8 +100,8 @@ public class SortingCommandTest {
     void testTrueToTrue() {
         sortingCommand.getChestSortingPerPlayer().put("Dummy", true);
 
-        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{"true"});
+        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"true"});
         Assertions.assertTrue(response);
 
         Assertions.assertTrue(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
@@ -112,8 +112,8 @@ public class SortingCommandTest {
     void testFalseToFalse() {
         sortingCommand.getChestSortingPerPlayer().put("Dummy", false);
 
-        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{"false"});
+        boolean response = sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"false"});
         Assertions.assertTrue(response);
 
         Assertions.assertFalse(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
@@ -122,8 +122,8 @@ public class SortingCommandTest {
     @Test
     @DisplayName("Not a Player")
     void testNotAPlayer() {
-        boolean response = sortingCommand.onCommand(server.getConsoleSender(), Objects.requireNonNull(plugin.getCommand("chestsort")),
-                "chestsort", new String[]{"false"});
+        boolean response = sortingCommand.onCommand(server.getConsoleSender(), Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"false"});
         Assertions.assertFalse(response);
     }
 }
