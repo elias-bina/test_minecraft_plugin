@@ -7,7 +7,10 @@ commands:
    uwu:
       description: Donne du diams + brique lol
       usage: /uwu
-   chestsort:
-      description: Active/Désactive la triage des coffres
-      usage: "Usage : /chestsort [true|false]"
+   sortchest:
+      description: Active/Désactive le tri des coffres
+      usage: "Usage : /sortchest [true|false]"
+   ninjamode:
+      description: Active/Désactive le mode ninja
+      usage: "Usage : /ninjamode [enable|disable]"
 

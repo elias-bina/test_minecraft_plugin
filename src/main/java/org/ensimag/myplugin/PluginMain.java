@@ -22,7 +22,8 @@ public class PluginMain extends JavaPlugin {
         getLogger().info("Hop hop hop le launch du serv");
 
         this.getCommand("uwu").setExecutor(new CommandBasic());
-        this.getCommand("chestsort").setExecutor(SortingCommand.getInstance());
+        this.getCommand("sortchest").setExecutor(SortingCommand.getInstance());
+        this.getCommand("ninjamode").setExecutor(NinjaModeCommand.getInstance());
         getServer().getPluginManager().registerEvents(ListenerBasic.getInstance(), this);
         getServer().getPluginManager().registerEvents(ChestSortingListener.getInstance(), this);
         getServer().getPluginManager().registerEvents(ItemReplacingListener.getInstance(), this);
