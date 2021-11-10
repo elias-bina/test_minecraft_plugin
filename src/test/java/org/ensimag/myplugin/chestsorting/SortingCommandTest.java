@@ -10,6 +10,7 @@ import java.util.Objects;
 
 public class SortingCommandTest {
 
+    private ServerMock server;
     private PluginMain plugin;
 
     private PlayerMock player;
@@ -17,7 +18,7 @@ public class SortingCommandTest {
 
     @BeforeEach
     public void setUp() {
-        ServerMock server = MockBukkit.mock();
+        server = MockBukkit.mock();
         plugin = MockBukkit.load(PluginMain.class);
 
         player = server.addPlayer("Dummy");
@@ -116,5 +117,13 @@ public class SortingCommandTest {
         Assertions.assertTrue(response);
 
         Assertions.assertFalse(sortingCommand.getChestSortingPerPlayer().get("Dummy"));
+    }
+
+    @Test
+    @DisplayName("Not a Player")
+    void testNotAPlayer() {
+        boolean response = sortingCommand.onCommand(server.getConsoleSender(), Objects.requireNonNull(plugin.getCommand("chestsort")),
+                "chestsort", new String[]{"false"});
+        Assertions.assertFalse(response);
     }
 }

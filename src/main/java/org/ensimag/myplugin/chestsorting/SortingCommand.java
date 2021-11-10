@@ -48,6 +48,8 @@ public class SortingCommand implements CommandExecutor {
             }
             else
                 return false;
+        } else {
+            return false;
         }
         return true;
     }
