@@ -172,5 +172,48 @@ public class ChestSortingListenerTest {
         Assertions.assertEquals(first, dest.get(0));
         Assertions.assertEquals(0, src.size());
     }
+    
+    // Tests for groupItems
+
+    @Test
+    @DisplayName("groupItem empty list")
+    void testgroupItemEmptyList() {
+        List<ItemStack> src = new ArrayList<>();
+        List<List<ItemStack>> actual = sortingListener.groupItems(src);
+        Assertions.assertEquals(0, actual.size());
+    }
+
+    @Test
+    @DisplayName("groupItem several stacks")
+    void testgroupItemSeveralStacks() {
+        List<ItemStack> src = new ArrayList<>();
+        src.add(new ItemStack(Material.OAK_LOG, 52));
+        src.add(new ItemStack(Material.REDSTONE, 40));
+        src.add(new ItemStack(Material.STONE_BRICK_SLAB, 64));
+        src.add(new ItemStack(Material.REDSTONE, 2));
+        src.add(new ItemStack(Material.STONE_BRICK_SLAB, 28));
+        src.add(new ItemStack(Material.STONE_BRICK_SLAB, 12));
+
+        List<List<ItemStack>> actual = sortingListener.groupItems(src);
+
+        List<List<ItemStack>> expected = new ArrayList<>();
+        List<ItemStack> slab = new ArrayList<>();
+        slab.add(new ItemStack(Material.STONE_BRICK_SLAB, 64));
+        slab.add(new ItemStack(Material.STONE_BRICK_SLAB, 28));
+        slab.add(new ItemStack(Material.STONE_BRICK_SLAB, 12));
+        expected.add(slab);
+        List<ItemStack> redstone = new ArrayList<>();
+        redstone.add(new ItemStack(Material.REDSTONE, 40));
+        redstone.add(new ItemStack(Material.REDSTONE, 2));
+        expected.add(redstone);
+        List<ItemStack> oak = new ArrayList<>();
+        oak.add(new ItemStack(Material.OAK_LOG, 52));
+        expected.add(oak);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    // Tests for smartSort
+
+
 
 }

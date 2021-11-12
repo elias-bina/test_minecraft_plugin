@@ -117,19 +117,15 @@ public class ChestSortingListener implements Listener{
 
     List<List<ItemStack>> groupItems(List<ItemStack> items){
         // Group items of same type in lists
-        Map<Material, List<ItemStack>> itemMap = new HashMap<Material, List<ItemStack>>();
+        Map<Material, List<ItemStack>> itemMap = new HashMap<>();
         for (ItemStack itemStack : items) {
             if(itemStack != null){
-                List<ItemStack> stackList = itemMap.get(itemStack.getType());
-                if(stackList == null){
-                    stackList = new LinkedList<ItemStack>();
-                    itemMap.put(itemStack.getType(), stackList);
-                }
+                List<ItemStack> stackList = itemMap.computeIfAbsent(itemStack.getType(), k -> new LinkedList<>());
                 stackList.add(itemStack);
             }
         }
         // Convert Map to List
-        List<List<ItemStack>> res = new LinkedList<List<ItemStack>>();
+        List<List<ItemStack>> res = new LinkedList<>();
         itemMap.forEach((k, v) -> res.add(v)); 
 
         // Sort by list size
@@ -148,7 +144,6 @@ public class ChestSortingListener implements Listener{
         // Premier tour de l'inv où on essaie de mettre bien
 
         while(invLine < maxLine){
-            lineCompletion = 0;
             for(List<ItemStack> itemList : itemLists){
                 // On ne met des grosses listes d'items  qu'en début de ligne
                 while(itemList.size() > INVENTORY_LINE_SIZE && lineCompletion == 0 && invLine < maxLine){
