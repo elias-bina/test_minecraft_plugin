@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -27,6 +28,10 @@ public class ItemReplacingListener implements Listener{
             instance = new ItemReplacingListener();
         }
         return instance;
+    }
+
+    public static void deleteInstance() {
+        instance = null;
     }
 
     @EventHandler
@@ -74,28 +79,40 @@ public class ItemReplacingListener implements Listener{
         PlayerInventory inv = player.getInventory();
 
         if(inv.contains(itemType)){
-            int slot = inv.first(itemType);
+            int slot = firstInvSlot(inv, itemType);
             ItemStack item = inv.getItem(slot);
             
             if(hand == EquipmentSlot.HAND){
                 if(slot == inv.getHeldItemSlot()){
+                    ItemStack savStack = inv.getItemInMainHand();
                     inv.clear(slot);
                     if(!inv.contains(itemType)) {
-                        Bukkit.getLogger().info("OOPSIE");
+                        inv.setItemInMainHand(savStack);
                         return;
                     }
-                    slot = inv.first(itemType);
+                    slot = firstInvSlot(inv, itemType);
                     item = inv.getItem(slot);
                 }
-                player.getEquipment().setItemInMainHand(item);
+                inv.setItemInMainHand(item);
             } else {
-                player.getEquipment().setItemInOffHand(item);
+                inv.setItemInOffHand(item);
             }
             inv.clear(slot);
 
             Bukkit.getLogger().info("Item in " + hand.toString() + " replaced");
         }
 
+    }
+
+    int firstInvSlot(Inventory inv, Material itemType){
+        int max = inv.getSize();
+        for(int i = 0; i < max ; i++){
+            ItemStack item =inv.getItem(i);
+            if(item != null && item.getType() == itemType){
+                return i;
+            }
+        }
+        return -1;
     }
 
 }

@@ -31,6 +31,11 @@ public class ChestSortingListener implements Listener{
         return instance;
     }
 
+    
+    public static void deleteInstance() {
+        instance = null;
+    }
+
 
     @EventHandler
     public void onInventoryClick(InventoryOpenEvent event){
