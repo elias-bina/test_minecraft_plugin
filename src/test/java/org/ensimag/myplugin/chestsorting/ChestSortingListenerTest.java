@@ -133,7 +133,7 @@ public class ChestSortingListenerTest {
 
     @Test
     @DisplayName("compressInventory Renamed items not treated")
-    void testcompressInventoryRenamedItemsNotTreated() {
+    void testCompressInventoryRenamedItemsNotTreated() {
         Inventory inventory = server.createInventory(null, InventoryType.CHEST, "Inventory", 27);
         inventory.setItem(0, new ItemStack(Material.OAK_LOG, 16));
         inventory.setItem(1, new ItemStack(Material.REDSTONE, 7));
@@ -155,6 +155,27 @@ public class ChestSortingListenerTest {
         expected.setItem(2, new ItemStack(Material.REDSTONE, 1));
         expected.setItem(3, new ItemStack(Material.REDSTONE, 7));
         expected.setItem(4, new ItemStack(Material.STONE_BRICK_SLAB, 64));
+        Assertions.assertEquals(Arrays.toString(expected.getContents()), Arrays.toString(inventory.getContents()));
+    }
+
+    @Test
+    @DisplayName("compressInventory Chest is full")
+    void testCompressInventoryChestIsFull() {
+        Inventory inventory = server.createInventory(null, InventoryType.CHEST, "Inventory", 9);
+        inventory.setItem(0, new ItemStack(Material.OAK_LOG, 64));
+        inventory.setItem(1, new ItemStack(Material.OAK_LOG, 64));
+        inventory.setItem(2, new ItemStack(Material.OAK_LOG, 42));
+        inventory.setItem(3, new ItemStack(Material.STONE, 64));
+        inventory.setItem(4, new ItemStack(Material.STONE, 64));
+        inventory.setItem(5, new ItemStack(Material.STONE, 12));
+        inventory.setItem(6, new ItemStack(Material.DIAMOND, 64));
+        inventory.setItem(7, new ItemStack(Material.DIAMOND, 64));
+        inventory.setItem(8, new ItemStack(Material.DIAMOND, 9));
+
+        Inventory expected = server.createInventory(null, InventoryType.CHEST, "Expected", 9);
+        expected.setContents(inventory.getContents());
+
+        sortingListener.compressInventory(inventory);
         Assertions.assertEquals(Arrays.toString(expected.getContents()), Arrays.toString(inventory.getContents()));
     }
 
@@ -214,6 +235,85 @@ public class ChestSortingListenerTest {
 
     // Tests for smartSort
 
+    @Test
+    @DisplayName("smartSort More types than rows")
+    void testSmartSortMoreTypesThanRows() {
+        List<List<ItemStack>> itemLists = new ArrayList<>();
+        List<ItemStack> oak = new ArrayList<>();
+        oak.add(new ItemStack(Material.OAK_LOG, 64));
+        oak.add(new ItemStack(Material.OAK_LOG, 64));
+        oak.add(new ItemStack(Material.OAK_LOG, 64));
+        oak.add(new ItemStack(Material.OAK_LOG, 52));
+        itemLists.add(oak);
+        List<ItemStack> redstone = new ArrayList<>();
+        redstone.add(new ItemStack(Material.REDSTONE, 64));
+        redstone.add(new ItemStack(Material.REDSTONE, 64));
+        redstone.add(new ItemStack(Material.REDSTONE, 64));
+        redstone.add(new ItemStack(Material.REDSTONE, 52));
+        itemLists.add(redstone);
+        List<ItemStack> stone = new ArrayList<>();
+        stone.add(new ItemStack(Material.STONE, 64));
+        stone.add(new ItemStack(Material.STONE, 64));
+        stone.add(new ItemStack(Material.STONE, 64));
+        stone.add(new ItemStack(Material.STONE, 52));
+        itemLists.add(stone);
+        List<ItemStack> sand = new ArrayList<>();
+        sand.add(new ItemStack(Material.SAND, 64));
+        sand.add(new ItemStack(Material.SAND, 64));
+        sand.add(new ItemStack(Material.SAND, 64));
+        sand.add(new ItemStack(Material.SAND, 52));
+        itemLists.add(sand);
+        List<ItemStack> honey_bottle = new ArrayList<>();
+        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
+        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
+        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
+        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 10));
+        itemLists.add(honey_bottle);
+        List<ItemStack> piston = new ArrayList<>();
+        piston.add(new ItemStack(Material.PISTON, 64));
+        piston.add(new ItemStack(Material.PISTON, 64));
+        piston.add(new ItemStack(Material.PISTON, 64));
+        piston.add(new ItemStack(Material.PISTON, 52));
+        itemLists.add(piston);
+        List<ItemStack> lever = new ArrayList<>();
+        lever.add(new ItemStack(Material.LEVER, 64));
+        lever.add(new ItemStack(Material.LEVER, 64));
+        lever.add(new ItemStack(Material.LEVER, 52));
+        itemLists.add(lever);
+        List<ItemStack> actual = sortingListener.smartSort(itemLists, 27);
 
+        List<ItemStack> expected = new ArrayList<>();
+        expected.add(new ItemStack(Material.OAK_LOG, 64));
+        expected.add(new ItemStack(Material.OAK_LOG, 64));
+        expected.add(new ItemStack(Material.OAK_LOG, 64));
+        expected.add(new ItemStack(Material.OAK_LOG, 52));
+        expected.add(new ItemStack(Material.REDSTONE, 64));
+        expected.add(new ItemStack(Material.REDSTONE, 64));
+        expected.add(new ItemStack(Material.REDSTONE, 64));
+        expected.add(new ItemStack(Material.REDSTONE, 52));
+        expected.add(new ItemStack(Material.LEVER, 64));
+
+        expected.add(new ItemStack(Material.STONE, 64));
+        expected.add(new ItemStack(Material.STONE, 64));
+        expected.add(new ItemStack(Material.STONE, 64));
+        expected.add(new ItemStack(Material.STONE, 52));
+        expected.add(new ItemStack(Material.SAND, 64));
+        expected.add(new ItemStack(Material.SAND, 64));
+        expected.add(new ItemStack(Material.SAND, 64));
+        expected.add(new ItemStack(Material.SAND, 52));
+        expected.add(new ItemStack(Material.LEVER, 64));
+
+        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
+        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
+        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
+        expected.add(new ItemStack(Material.HONEY_BOTTLE, 10));
+        expected.add(new ItemStack(Material.PISTON, 64));
+        expected.add(new ItemStack(Material.PISTON, 64));
+        expected.add(new ItemStack(Material.PISTON, 64));
+        expected.add(new ItemStack(Material.PISTON, 52));
+        expected.add(new ItemStack(Material.LEVER, 52));
+
+        Assertions.assertEquals(expected, actual);
+    }
 
 }
