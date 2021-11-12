@@ -40,7 +40,9 @@ public class ChestSortingListener implements Listener{
             if ((inv.getHolder() instanceof BlockInventoryHolder && inv.getSize() > 5) || inv.getHolder() instanceof DoubleChest) {
                 Bukkit.getLogger().info("Chest sorted");
                 sortInventory(inv, false); // Sorts for compressing
+                Bukkit.getLogger().info("\n\n" + inv.getContents().toString() + " TAILLE : " + inv.getContents().length);
                 compressInventory(inv);
+                Bukkit.getLogger().info("\n\n" + inv.getContents().toString() + " TAILLE : " + inv.getContents().length);
                 sortInventory(inv, true); // Reorganizes after compression
             }
         }
@@ -51,10 +53,10 @@ public class ChestSortingListener implements Listener{
         List<ItemStack> items = Arrays.asList(inv.getContents());
 
         if(reorganize){
+            //Bukkit.getLogger().info("\n\n" + items.toString());
             List<List<ItemStack>> itemLists = groupItems(items);
-            Bukkit.getLogger().info(itemLists.toString());
+            //Bukkit.getLogger().info("\n\n" + itemLists.toString());
             items = smartSort(itemLists, inv.getSize());
-            Bukkit.getLogger().info("\n\n" + items.toString() + " TAILLE : " + items.size());
         } else {
             items.sort(new SortByName());
         }
@@ -80,7 +82,8 @@ public class ChestSortingListener implements Listener{
         for (ItemStack stack : items) {
 
             if(stack == null){
-                if(holdType != null) res.add(new ItemStack(holdType,actualNb));
+                if(holdType != null && actualNb != 0) res.add(new ItemStack(holdType,actualNb));
+                actualNb = 0;
                 break;
             } else {
 
@@ -99,13 +102,16 @@ public class ChestSortingListener implements Listener{
                     res.add(stack);
                 }else {
                     actualNb = actualNb + stack.getAmount();
-                    if(actualNb > maxNb){
+                    if(actualNb >= maxNb){
                         res.add(new ItemStack(holdType,maxNb));
                         actualNb -= maxNb;
                     }
                 }
             }
 
+        }
+        if(actualNb > 0){
+            res.add(new ItemStack(holdType,actualNb));
         }
 
         while(res.size() < len){
@@ -179,18 +185,15 @@ public class ChestSortingListener implements Listener{
 
         // Deuxième tour de l'inv où on met les invendus
         int actualSlot = 0;
-        while(actualSlot < inventorySize){
-            for(List<ItemStack> itemList : itemLists){
-                int size = itemList.size();
-                if(size > 0 && actualSlot < inventorySize){
-                    for(int i = 0; i < size; i++){
-                        while(items.get(actualSlot) != null) actualSlot++;
-                        moveFirstItemStack(itemList, items, actualSlot);
-                        actualSlot++;
-                    }
+        for(List<ItemStack> itemList : itemLists){
+            int size = itemList.size();
+            if(size > 0 && actualSlot < inventorySize){
+                for(int i = 0; i < size; i++){
+                    while(items.get(actualSlot) != null) actualSlot++;
+                    moveFirstItemStack(itemList, items, actualSlot);
+                    actualSlot++;
                 }
             }
-            actualSlot++;
         }
 
         return items;
