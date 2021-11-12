@@ -68,8 +68,8 @@ public class ChestSortingListener implements Listener{
 
         int len = inv.getSize();
         
-        List<ItemStack> items = Arrays.asList(inv.getContents());
-        List<ItemStack> res = new ArrayList<ItemStack>();
+        ItemStack[] items = inv.getContents();
+        List<ItemStack> res = new ArrayList<>();
 
         Material holdType = null;
         int maxNb = 0;
@@ -97,7 +97,7 @@ public class ChestSortingListener implements Listener{
                     res.add(stack);
                 }else {
                     actualNb = actualNb + stack.getAmount();
-                    if(actualNb >= maxNb){
+                    if(actualNb > maxNb){
                         res.add(new ItemStack(holdType,maxNb));
                         actualNb -= maxNb;
                     }
