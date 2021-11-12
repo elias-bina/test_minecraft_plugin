@@ -52,7 +52,9 @@ public class ChestSortingListener implements Listener{
 
         if(reorganize){
             List<List<ItemStack>> itemLists = groupItems(items);
+            Bukkit.getLogger().info(itemLists.toString());
             items = smartSort(itemLists, inv.getSize());
+            Bukkit.getLogger().info("\n\n" + items.toString() + " TAILLE : " + items.size());
         } else {
             items.sort(new SortByName());
         }
@@ -173,6 +175,8 @@ public class ChestSortingListener implements Listener{
             invLine++;
         }
 
+        Bukkit.getLogger().info("\nItems restants après le premier tour : " + itemLists + " Taille : " + items.size());
+
         // Deuxième tour de l'inv où on met les invendus
         int actualSlot = 0;
         while(actualSlot < inventorySize){
@@ -181,7 +185,7 @@ public class ChestSortingListener implements Listener{
                 if(size > 0 && actualSlot < inventorySize){
                     for(int i = 0; i < size; i++){
                         while(items.get(actualSlot) != null) actualSlot++;
-                        moveFirstItemStack(itemList, items);
+                        moveFirstItemStack(itemList, items, actualSlot);
                         actualSlot++;
                     }
                 }
@@ -194,6 +198,11 @@ public class ChestSortingListener implements Listener{
 
     void moveFirstItemStack(List<ItemStack> src, List<ItemStack> dest){
         dest.add(src.get(0));
+        src.remove(0);
+    }
+
+    void moveFirstItemStack(List<ItemStack> src, List<ItemStack> dest, int slot){
+        dest.set(slot, src.get(0));
         src.remove(0);
     }
 
