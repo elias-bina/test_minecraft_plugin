@@ -9,6 +9,10 @@ import org.ensimag.myplugin.chestsorting.*;
 import java.io.File;
 
 public class PluginMain extends JavaPlugin {
+    
+    public PluginMain() {
+        super();
+    }
 
     protected PluginMain(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
         super(loader, description, dataFolder, file);
