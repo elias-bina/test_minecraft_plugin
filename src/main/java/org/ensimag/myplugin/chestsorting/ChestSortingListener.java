@@ -38,11 +38,11 @@ public class ChestSortingListener implements Listener{
         Boolean isOn = SortingCommand.getInstance().getChestSortingPerPlayer().get(event.getPlayer().getName());
         if (isOn == null || isOn) {
             if ((inv.getHolder() instanceof BlockInventoryHolder && inv.getSize() > 5) || inv.getHolder() instanceof DoubleChest) {
-                Bukkit.getLogger().info("Chest sorted");
+                //Bukkit.getLogger().info("Chest sorted");
                 sortInventory(inv, false); // Sorts for compressing
-                Bukkit.getLogger().info("\n\n" + inv.getContents().toString() + " TAILLE : " + inv.getContents().length);
+                //Bukkit.getLogger().info("\n\n" + inv.getContents().toString() + " TAILLE : " + inv.getContents().length);
                 compressInventory(inv);
-                Bukkit.getLogger().info("\n\n" + inv.getContents().toString() + " TAILLE : " + inv.getContents().length);
+                //Bukkit.getLogger().info("\n\n" + inv.getContents().toString() + " TAILLE : " + inv.getContents().length);
                 sortInventory(inv, true); // Reorganizes after compression
             }
         }
@@ -181,7 +181,7 @@ public class ChestSortingListener implements Listener{
             invLine++;
         }
 
-        Bukkit.getLogger().info("\nItems restants après le premier tour : " + itemLists + " Taille : " + items.size());
+        //Bukkit.getLogger().info("\nItems restants après le premier tour : " + itemLists + " Taille : " + items.size());
 
         // Deuxième tour de l'inv où on met les invendus
         int actualSlot = 0;
