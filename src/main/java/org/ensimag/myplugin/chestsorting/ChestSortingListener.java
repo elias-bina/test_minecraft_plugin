@@ -38,11 +38,8 @@ public class ChestSortingListener implements Listener{
         Boolean isOn = SortingCommand.getInstance().getChestSortingPerPlayer().get(event.getPlayer().getName());
         if (isOn == null || isOn) {
             if ((inv.getHolder() instanceof BlockInventoryHolder && inv.getSize() > 5) || inv.getHolder() instanceof DoubleChest) {
-                //Bukkit.getLogger().info("Chest sorted");
                 sortInventory(inv, false); // Sorts for compressing
-                //Bukkit.getLogger().info("\n\n" + inv.getContents().toString() + " TAILLE : " + inv.getContents().length);
                 compressInventory(inv);
-                //Bukkit.getLogger().info("\n\n" + inv.getContents().toString() + " TAILLE : " + inv.getContents().length);
                 sortInventory(inv, true); // Reorganizes after compression
             }
         }
@@ -53,9 +50,7 @@ public class ChestSortingListener implements Listener{
         List<ItemStack> items = Arrays.asList(inv.getContents());
 
         if(reorganize){
-            //Bukkit.getLogger().info("\n\n" + items.toString());
             List<List<ItemStack>> itemLists = groupItems(items);
-            //Bukkit.getLogger().info("\n\n" + itemLists.toString());
             items = smartSort(itemLists, inv.getSize());
         } else {
             items.sort(new SortByName());
@@ -95,8 +90,6 @@ public class ChestSortingListener implements Listener{
                     maxNb = stack.getMaxStackSize();
                     actualNb = 0;
                 }
-
-                // Bukkit.getLogger().info(stack.toString() + " : " + stack.hasItemMeta() + "\n");
                 
                 if(stack.hasItemMeta()){
                     res.add(stack);
