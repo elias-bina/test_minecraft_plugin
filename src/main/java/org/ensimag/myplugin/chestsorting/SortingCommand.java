@@ -44,7 +44,7 @@ public class SortingCommand implements CommandExecutor {
             if (isOn.equals("true") || isOn.equals("false")){
                 boolean on = Boolean.parseBoolean(args[0]);
                 chestSortingPerPlayer.put(player.getName(), on);
-                player.sendMessage("Your chests will now"+ (on ? "":"not ") +"be sorted.");
+                player.sendMessage("Your chests will now "+ (on ? "":"not ") +"be sorted.");
             }
             else
                 return false;

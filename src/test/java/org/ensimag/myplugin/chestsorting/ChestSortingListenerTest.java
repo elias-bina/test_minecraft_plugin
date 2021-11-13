@@ -2,18 +2,19 @@ package org.ensimag.myplugin.chestsorting;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.block.state.ChestMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
-import be.seeseemelk.mockbukkit.inventory.ChestInventoryMock;
-import be.seeseemelk.mockbukkit.inventory.InventoryMock;
 import be.seeseemelk.mockbukkit.inventory.meta.ItemMetaMock;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Chest;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.checkerframework.checker.units.qual.A;
 import org.ensimag.myplugin.PluginMain;
 import org.junit.jupiter.api.*;
 
@@ -214,6 +215,7 @@ public class ChestSortingListenerTest {
         src.add(new ItemStack(Material.REDSTONE, 2));
         src.add(new ItemStack(Material.STONE_BRICK_SLAB, 28));
         src.add(new ItemStack(Material.STONE_BRICK_SLAB, 12));
+        for(int i = 0 ; i < 27 - 6 ; i++) src.add(null);
 
         List<List<ItemStack>> actual = sortingListener.groupItems(src);
 
@@ -238,80 +240,49 @@ public class ChestSortingListenerTest {
     @Test
     @DisplayName("smartSort More types than rows")
     void testSmartSortMoreTypesThanRows() {
+        final int MIN = 1, MAX = 64;
+
         List<List<ItemStack>> itemLists = new ArrayList<>();
-        List<ItemStack> oak = new ArrayList<>();
-        oak.add(new ItemStack(Material.OAK_LOG, 64));
-        oak.add(new ItemStack(Material.OAK_LOG, 64));
-        oak.add(new ItemStack(Material.OAK_LOG, 64));
-        oak.add(new ItemStack(Material.OAK_LOG, 52));
-        itemLists.add(oak);
-        List<ItemStack> redstone = new ArrayList<>();
-        redstone.add(new ItemStack(Material.REDSTONE, 64));
-        redstone.add(new ItemStack(Material.REDSTONE, 64));
-        redstone.add(new ItemStack(Material.REDSTONE, 64));
-        redstone.add(new ItemStack(Material.REDSTONE, 52));
-        itemLists.add(redstone);
-        List<ItemStack> stone = new ArrayList<>();
-        stone.add(new ItemStack(Material.STONE, 64));
-        stone.add(new ItemStack(Material.STONE, 64));
-        stone.add(new ItemStack(Material.STONE, 64));
-        stone.add(new ItemStack(Material.STONE, 52));
-        itemLists.add(stone);
-        List<ItemStack> sand = new ArrayList<>();
-        sand.add(new ItemStack(Material.SAND, 64));
-        sand.add(new ItemStack(Material.SAND, 64));
-        sand.add(new ItemStack(Material.SAND, 64));
-        sand.add(new ItemStack(Material.SAND, 52));
-        itemLists.add(sand);
-        List<ItemStack> honey_bottle = new ArrayList<>();
-        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 10));
-        itemLists.add(honey_bottle);
-        List<ItemStack> piston = new ArrayList<>();
-        piston.add(new ItemStack(Material.PISTON, 64));
-        piston.add(new ItemStack(Material.PISTON, 64));
-        piston.add(new ItemStack(Material.PISTON, 64));
-        piston.add(new ItemStack(Material.PISTON, 52));
-        itemLists.add(piston);
-        List<ItemStack> lever = new ArrayList<>();
-        lever.add(new ItemStack(Material.LEVER, 64));
-        lever.add(new ItemStack(Material.LEVER, 64));
-        lever.add(new ItemStack(Material.LEVER, 52));
-        itemLists.add(lever);
+
+        final int oakNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.OAK_LOG, 4, 64, oakNb));
+
+        final int redstoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.REDSTONE, 4, 64, redstoneNb));
+
+        final int stoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.STONE, 4, 64, stoneNb));
+
+        final int sandNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.SAND, 4, 64, sandNb));
+
+        final int honeyNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.HONEY_BOTTLE, 4, 16, honeyNb));
+
+        final int pistonNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.PISTON, 4, 64, pistonNb));
+
+        final int leverNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.LEVER, 3, 64, leverNb));
+
         List<ItemStack> actual = sortingListener.smartSort(itemLists, 27);
 
         List<ItemStack> expected = new ArrayList<>();
-        expected.add(new ItemStack(Material.OAK_LOG, 64));
-        expected.add(new ItemStack(Material.OAK_LOG, 64));
-        expected.add(new ItemStack(Material.OAK_LOG, 64));
-        expected.add(new ItemStack(Material.OAK_LOG, 52));
-        expected.add(new ItemStack(Material.REDSTONE, 64));
-        expected.add(new ItemStack(Material.REDSTONE, 64));
-        expected.add(new ItemStack(Material.REDSTONE, 64));
-        expected.add(new ItemStack(Material.REDSTONE, 52));
-        expected.add(new ItemStack(Material.LEVER, 64));
 
-        expected.add(new ItemStack(Material.STONE, 64));
-        expected.add(new ItemStack(Material.STONE, 64));
-        expected.add(new ItemStack(Material.STONE, 64));
-        expected.add(new ItemStack(Material.STONE, 52));
-        expected.add(new ItemStack(Material.SAND, 64));
-        expected.add(new ItemStack(Material.SAND, 64));
-        expected.add(new ItemStack(Material.SAND, 64));
-        expected.add(new ItemStack(Material.SAND, 52));
-        expected.add(new ItemStack(Material.LEVER, 64));
+        // First line
+        addItemsStack(expected, Material.OAK_LOG, 4, 64, oakNb);
+        addItemsStack(expected, Material.REDSTONE, 4, 64, redstoneNb);
+        addItemsStack(expected, Material.LEVER, 1, 64);
 
-        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        expected.add(new ItemStack(Material.HONEY_BOTTLE, 10));
-        expected.add(new ItemStack(Material.PISTON, 64));
-        expected.add(new ItemStack(Material.PISTON, 64));
-        expected.add(new ItemStack(Material.PISTON, 64));
-        expected.add(new ItemStack(Material.PISTON, 52));
-        expected.add(new ItemStack(Material.LEVER, 52));
+        // Second line
+        addItemsStack(expected, Material.STONE, 4, 64, stoneNb);
+        addItemsStack(expected, Material.SAND, 4, 64, sandNb);
+        addItemsStack(expected, Material.LEVER, 1, 64);
+
+        // Third line
+        addItemsStack(expected, Material.HONEY_BOTTLE, 4, 16, honeyNb);
+        addItemsStack(expected, Material.PISTON, 4, 64, pistonNb);
+        addItemsStack(expected, Material.LEVER, 1, 64, leverNb);
 
         Assertions.assertEquals(expected, actual);
     }
@@ -320,84 +291,229 @@ public class ChestSortingListenerTest {
     @Test
     @DisplayName("smartSort giant lists")
     void testSmartSortGiantLists() {
-        List<List<ItemStack>> itemLists = new ArrayList<>();
         
-        List<ItemStack> oak = new ArrayList<>();
-        for(int i = 0; i < 12; i++) oak.add(new ItemStack(Material.OAK_LOG, 64));
-        oak.add(new ItemStack(Material.OAK_LOG, 8));
-        itemLists.add(oak);
+        final int MIN = 1, MAX = 64;
 
-        List<ItemStack> redstone = new ArrayList<>();
-        for(int i = 0; i < 9; i++) redstone.add(new ItemStack(Material.REDSTONE, 64));
-        redstone.add(new ItemStack(Material.REDSTONE, 64));
-        redstone.add(new ItemStack(Material.REDSTONE, 64));
-        redstone.add(new ItemStack(Material.REDSTONE, 24));
-        itemLists.add(redstone);
+        List<List<ItemStack>> itemLists = new ArrayList<>();
+
+        
+        final int oakNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.OAK_LOG, 15, 64, oakNb));
+
+        final int redstoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.REDSTONE, 13, 64, redstoneNb));
+
+        final int stoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.STONE, 12, 64, stoneNb));
+
+        final int sandNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.SAND, 10, 64, sandNb));        
+
+        final int honeyBottleNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        itemLists.add(createItemStackList(Material.HONEY_BOTTLE, 4, 16, honeyBottleNb));
 
 
-        List<ItemStack> stone = new ArrayList<>();
-        stone.add(new ItemStack(Material.STONE, 64));
-        stone.add(new ItemStack(Material.STONE, 64));
-        stone.add(new ItemStack(Material.STONE, 64));
-        stone.add(new ItemStack(Material.STONE, 52));
-        itemLists.add(stone);
-        List<ItemStack> sand = new ArrayList<>();
-        sand.add(new ItemStack(Material.SAND, 64));
-        sand.add(new ItemStack(Material.SAND, 64));
-        sand.add(new ItemStack(Material.SAND, 64));
-        sand.add(new ItemStack(Material.SAND, 52));
-        itemLists.add(sand);
-        List<ItemStack> honey_bottle = new ArrayList<>();
-        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        honey_bottle.add(new ItemStack(Material.HONEY_BOTTLE, 10));
-        itemLists.add(honey_bottle);
-        List<ItemStack> piston = new ArrayList<>();
-        piston.add(new ItemStack(Material.PISTON, 64));
-        piston.add(new ItemStack(Material.PISTON, 64));
-        piston.add(new ItemStack(Material.PISTON, 64));
-        piston.add(new ItemStack(Material.PISTON, 52));
-        itemLists.add(piston);
-        List<ItemStack> lever = new ArrayList<>();
-        lever.add(new ItemStack(Material.LEVER, 64));
-        lever.add(new ItemStack(Material.LEVER, 64));
-        lever.add(new ItemStack(Material.LEVER, 52));
-        itemLists.add(lever);
-        List<ItemStack> actual = sortingListener.smartSort(itemLists, 27);
+        List<ItemStack> actual = sortingListener.smartSort(itemLists, 54);
 
         List<ItemStack> expected = new ArrayList<>();
-        expected.add(new ItemStack(Material.OAK_LOG, 64));
-        expected.add(new ItemStack(Material.OAK_LOG, 64));
-        expected.add(new ItemStack(Material.OAK_LOG, 64));
-        expected.add(new ItemStack(Material.OAK_LOG, 52));
-        expected.add(new ItemStack(Material.REDSTONE, 64));
-        expected.add(new ItemStack(Material.REDSTONE, 64));
-        expected.add(new ItemStack(Material.REDSTONE, 64));
-        expected.add(new ItemStack(Material.REDSTONE, 52));
-        expected.add(new ItemStack(Material.LEVER, 64));
 
-        expected.add(new ItemStack(Material.STONE, 64));
-        expected.add(new ItemStack(Material.STONE, 64));
-        expected.add(new ItemStack(Material.STONE, 64));
-        expected.add(new ItemStack(Material.STONE, 52));
-        expected.add(new ItemStack(Material.SAND, 64));
-        expected.add(new ItemStack(Material.SAND, 64));
-        expected.add(new ItemStack(Material.SAND, 64));
-        expected.add(new ItemStack(Material.SAND, 52));
-        expected.add(new ItemStack(Material.LEVER, 64));
+        // First two lines
+        addItemsStack(expected, Material.OAK_LOG, 15, 64, oakNb);
+        addItemsStack(expected, Material.SAND, 3, 64);
 
-        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        expected.add(new ItemStack(Material.HONEY_BOTTLE, 16));
-        expected.add(new ItemStack(Material.HONEY_BOTTLE, 10));
-        expected.add(new ItemStack(Material.PISTON, 64));
-        expected.add(new ItemStack(Material.PISTON, 64));
-        expected.add(new ItemStack(Material.PISTON, 64));
-        expected.add(new ItemStack(Material.PISTON, 52));
-        expected.add(new ItemStack(Material.LEVER, 52));
+        // Lines 3 and 4 
+        addItemsStack(expected, Material.REDSTONE, 13, 64, redstoneNb);
+        addItemsStack(expected, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
+        addItemsStack(expected, Material.SAND, 1, 64);
+
+        // Last Two lines
+        
+        addItemsStack(expected, Material.STONE, 12, 64, stoneNb);
+        addItemsStack(expected, Material.SAND, 6, 64, sandNb);
 
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("Sort giant lists")
+    void testSortGiantLists() {
+        
+        final int MIN = 1, MAX = 64;
+
+        List<ItemStack> itemsList = new ArrayList<>();
+        
+        final int oakNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.OAK_LOG, 15, 64, oakNb);
+
+        final int redstoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.REDSTONE, 13, 64, redstoneNb);
+
+        final int stoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.STONE, 12, 64, stoneNb);
+
+        final int sandNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.SAND, 10, 64, sandNb);        
+
+        final int honeyBottleNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
+
+        Inventory inv = server.createInventory(null, InventoryType.CHEST, "Expected", 54);
+
+        inv.clear();
+        ItemStack[] i = itemsList.toArray(ItemStack[]::new);
+    
+        inv.setContents(i);
+
+        sortingListener.sortInventory(inv, false); // WTF null ??????? Only when use built-in sort but sort by name seems to work
+
+        List<ItemStack> actual =  Arrays.asList(inv.getContents());
+        List<ItemStack> expected = new ArrayList<>();
+
+        // First two lines
+        addItemsStack(expected, Material.OAK_LOG, 15, 64, oakNb);
+        addItemsStack(expected, Material.SAND, 3, 64);
+
+        // Lines 3 and 4 
+        addItemsStack(expected, Material.REDSTONE, 13, 64, redstoneNb);
+        addItemsStack(expected, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
+        addItemsStack(expected, Material.SAND, 1, 64);
+
+        // Last Two lines
+        
+        addItemsStack(expected, Material.STONE, 12, 64, stoneNb);
+        addItemsStack(expected, Material.SAND, 6, 64, sandNb);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("Smart sort giant lists (from listener)")
+    void testSmartSortGiantListsFromListener() {
+        
+        final int MIN = 1, MAX = 64;
+
+        List<ItemStack> itemsList = new ArrayList<>();
+        
+        final int oakNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.OAK_LOG, 15, 64, oakNb);
+
+        final int redstoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.REDSTONE, 13, 64, redstoneNb);
+
+        final int stoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.STONE, 12, 64, stoneNb);
+
+        final int sandNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.SAND, 10, 64, sandNb);        
+
+        final int honeyBottleNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
+
+        Inventory inv = server.createInventory(null, InventoryType.CHEST, "Expected", 54);
+        inv.clear();
+        ItemStack[] i = itemsList.toArray(ItemStack[]::new);
+    
+        inv.setContents(i);
+
+        sortingListener.sortInventory(inv, true);
+
+        List<ItemStack> actual =  Arrays.asList(inv.getContents());
+        List<ItemStack> expected = new ArrayList<>();
+
+        // First two lines
+        addItemsStack(expected, Material.OAK_LOG, 15, 64, oakNb);
+        addItemsStack(expected, Material.SAND, 3, 64);
+
+        // Lines 3 and 4 
+        addItemsStack(expected, Material.REDSTONE, 13, 64, redstoneNb);
+        addItemsStack(expected, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
+        addItemsStack(expected, Material.SAND, 1, 64);
+
+        // Last Two lines
+        
+        addItemsStack(expected, Material.STONE, 12, 64, stoneNb);
+        addItemsStack(expected, Material.SAND, 6, 64, sandNb);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+
+    @Test
+    @DisplayName("Smart sort giant lists (from listener)")
+    void testSortTotal() {
+        
+        final int MIN = 1, MAX = 64;
+
+        List<ItemStack> itemsList = new ArrayList<>();
+        
+        final int oakNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.OAK_LOG, 15, 64, oakNb);
+
+        final int redstoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.REDSTONE, 13, 64, redstoneNb);
+
+        final int stoneNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.STONE, 12, 64, stoneNb);
+
+        final int sandNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.SAND, 10, 64, sandNb);        
+
+        final int honeyBottleNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        addItemsStack(itemsList, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
+
+        Inventory inv = server.createInventory(null, InventoryType.CHEST, "Expected", 54);
+        inv.clear();
+        ItemStack[] i = itemsList.toArray(ItemStack[]::new);
+    
+        inv.setContents(i);
+
+        sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),"sortchest", new String[]{"true"});
+
+        InventoryView transaction = player.openInventory(inv);
+        InventoryOpenEvent event = new InventoryOpenEvent(transaction);
+        sortingListener.onInventoryClick(event);
+
+        List<ItemStack> actual =  Arrays.asList(inv.getContents());
+        List<ItemStack> expected = new ArrayList<>();
+
+        // First two lines
+        addItemsStack(expected, Material.OAK_LOG, 15, 64, oakNb);
+        addItemsStack(expected, Material.SAND, 3, 64);
+
+        // Lines 3 and 4 
+        addItemsStack(expected, Material.REDSTONE, 13, 64, redstoneNb);
+        addItemsStack(expected, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
+        addItemsStack(expected, Material.SAND, 1, 64);
+
+        // Last Two lines
+        
+        addItemsStack(expected, Material.STONE, 12, 64, stoneNb);
+        addItemsStack(expected, Material.SAND, 6, 64, sandNb);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+
+
+
+
+    List<ItemStack> createItemStackList(Material type, int StackNumber, int stackMax){
+        return createItemStackList(type, StackNumber, stackMax, 64);
+    }
+
+    List<ItemStack> createItemStackList(Material type, int StackNumber, int stackMax, int lastStackAmount){
+        List<ItemStack> list = new ArrayList<>();
+        addItemsStack(list, type, StackNumber, stackMax, lastStackAmount);
+        return list;
+    }
+
+    void addItemsStack(List<ItemStack> list, Material type, int StackNumber, int stackMax){
+        addItemsStack(list, type, StackNumber, stackMax, 64);
+    }
+
+    void addItemsStack(List<ItemStack> list, Material type, int StackNumber, int stackMax, int lastStackAmount){
+        for(int i = 0; i < StackNumber - 1; i++) list.add(new ItemStack(type, stackMax));
+        list.add(new ItemStack(type, lastStackAmount));
     }
 
 }

@@ -53,7 +53,9 @@ public class ChestSortingListener implements Listener{
             List<List<ItemStack>> itemLists = groupItems(items);
             items = smartSort(itemLists, inv.getSize());
         } else {
+            //Bukkit.getLogger().info(items.toString());
             items.sort(new SortByName());
+            //Bukkit.getLogger().info(items.toString());
         }
 
         inv.clear();
