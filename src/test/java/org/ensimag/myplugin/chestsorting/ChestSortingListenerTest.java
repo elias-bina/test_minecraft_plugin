@@ -256,7 +256,7 @@ public class ChestSortingListenerTest {
         final int sandNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
         itemLists.add(createItemStackList(Material.SAND, 4, 64, sandNb));
 
-        final int honeyNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        final int honeyNb = MIN + (int)(Math.random() * ((16 - MIN) + 1));
         itemLists.add(createItemStackList(Material.HONEY_BOTTLE, 4, 16, honeyNb));
 
         final int pistonNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
@@ -309,7 +309,7 @@ public class ChestSortingListenerTest {
         final int sandNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
         itemLists.add(createItemStackList(Material.SAND, 10, 64, sandNb));        
 
-        final int honeyBottleNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        final int honeyBottleNb = MIN + (int)(Math.random() * ((16 - MIN) + 1));
         itemLists.add(createItemStackList(Material.HONEY_BOTTLE, 4, 16, honeyBottleNb));
 
 
@@ -406,7 +406,7 @@ public class ChestSortingListenerTest {
         final int sandNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
         addItemsStack(itemsList, Material.SAND, 10, 64, sandNb);        
 
-        final int honeyBottleNb = MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        final int honeyBottleNb = MIN + (int)(Math.random() * ((16 - MIN) + 1));
         addItemsStack(itemsList, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
 
         Inventory inv = server.createInventory(null, InventoryType.CHEST, "Expected", 54);
