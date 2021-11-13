@@ -8,6 +8,7 @@ import be.seeseemelk.mockbukkit.inventory.meta.ItemMetaMock;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -52,7 +53,7 @@ public class ChestSortingListenerTest {
 
     // Tests for OnInventoryClick
 
-    /*
+
     @Test
     @DisplayName("OnInventoryClick player not in the map")
     void testOnInventoryClickPlayerNotInTheMap() {
@@ -60,10 +61,63 @@ public class ChestSortingListenerTest {
         Inventory inventory = chest.getInventory();
         inventory.setItem(6, new ItemStack(Material.OAK_LOG, 5));
         InventoryOpenEvent event = new InventoryOpenEvent(Objects.requireNonNull(player.openInventory(inventory)));
-        System.out.println(Arrays.toString(inventory.getContents()));
         sortingListener.onInventoryClick(event);
-        System.out.println(Arrays.toString(inventory.getContents()));
-    }*/
+
+        Inventory expected = server.createInventory(null, InventoryType.CHEST, "Expected", 27);
+        expected.setItem(0, new ItemStack(Material.OAK_LOG, 5));
+
+        Assertions.assertEquals(Arrays.toString(expected.getContents()), Arrays.toString(inventory.getContents()));
+    }
+
+    @Test
+    @DisplayName("OnInventoryClick player isOn set to false")
+    void testOnInventoryClickPlayerIsOnSetToFalse() {
+        sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"false"});
+
+        Chest chest = new ChestMock(Material.OAK_LOG);  // Material does not seem to have any meaning
+        Inventory inventory = chest.getInventory();
+        inventory.setItem(6, new ItemStack(Material.OAK_LOG, 5));
+        InventoryOpenEvent event = new InventoryOpenEvent(Objects.requireNonNull(player.openInventory(inventory)));
+        sortingListener.onInventoryClick(event);
+
+        Inventory expected = server.createInventory(null, InventoryType.CHEST, "Expected", 27);
+        expected.setItem(6, new ItemStack(Material.OAK_LOG, 5));
+
+        Assertions.assertEquals(Arrays.toString(expected.getContents()), Arrays.toString(inventory.getContents()));
+    }
+
+    @Test
+    @DisplayName("OnInventoryClick player isOn set to true")
+    void testOnInventoryClickPlayerIsOnSetToTrue() {
+        sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),
+                "sortchest", new String[]{"true"});
+
+        Chest chest = new ChestMock(Material.OAK_LOG);
+        Inventory inventory = chest.getInventory();
+        inventory.setItem(6, new ItemStack(Material.OAK_LOG, 5));
+        InventoryOpenEvent event = new InventoryOpenEvent(Objects.requireNonNull(player.openInventory(inventory)));
+        sortingListener.onInventoryClick(event);
+
+        Inventory expected = server.createInventory(null, InventoryType.CHEST, "Expected", 27);
+        expected.setItem(0, new ItemStack(Material.OAK_LOG, 5));
+
+        Assertions.assertEquals(Arrays.toString(expected.getContents()), Arrays.toString(inventory.getContents()));
+    }
+
+    @Test
+    @DisplayName("OnInventoryClick some holders should not have their inventory sorted")
+    void testOnInventoryClickHolderShouldNotBeSorted() {
+        Inventory inventory = server.createInventory(player, InventoryType.PLAYER, "Expected", 27);
+        inventory.setItem(2, new ItemStack(Material.OAK_LOG, 5));
+        InventoryOpenEvent event = new InventoryOpenEvent(Objects.requireNonNull(player.openInventory(inventory)));
+        sortingListener.onInventoryClick(event);
+
+        Inventory expected = server.createInventory(server.addPlayer(), InventoryType.PLAYER, "Expected", 27);
+        expected.setItem(2, new ItemStack(Material.OAK_LOG, 5));
+
+        Assertions.assertEquals(Arrays.toString(expected.getContents()), Arrays.toString(inventory.getContents()));
+    }
     
     // Tests for compressInventory
 
