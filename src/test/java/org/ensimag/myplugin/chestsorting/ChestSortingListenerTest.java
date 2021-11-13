@@ -2,11 +2,13 @@ package org.ensimag.myplugin.chestsorting;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.block.state.ChestMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import be.seeseemelk.mockbukkit.inventory.meta.ItemMetaMock;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -364,24 +366,22 @@ public class ChestSortingListenerTest {
     
         inv.setContents(i);
 
-        sortingListener.sortInventory(inv, false); // WTF null ??????? Only when use built-in sort but sort by name function seems to work
+        System.out.println(Arrays.toString(inv.getContents()));
+
+        sortingListener.sortInventory(inv, false);
 
         List<ItemStack> actual =  Arrays.asList(inv.getContents());
         List<ItemStack> expected = new ArrayList<>();
 
-        // First two lines
-        addItemsStack(expected, Material.OAK_LOG, 15, 64, oakNb);
-        addItemsStack(expected, Material.SAND, 3, 64);
 
-        // Lines 3 and 4 
+        addItemsStack(expected, Material.STONE, 12, 64, stoneNb);
+        addItemsStack(expected, Material.SAND, 10, 64, sandNb);
+
+
+        addItemsStack(expected, Material.OAK_LOG, 15, 64, oakNb);
+
         addItemsStack(expected, Material.REDSTONE, 13, 64, redstoneNb);
         addItemsStack(expected, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
-        addItemsStack(expected, Material.SAND, 1, 64);
-
-        // Last Two lines
-        
-        addItemsStack(expected, Material.STONE, 12, 64, stoneNb);
-        addItemsStack(expected, Material.SAND, 6, 64, sandNb);
 
         Assertions.assertEquals(expected, actual);
     }
@@ -461,7 +461,8 @@ public class ChestSortingListenerTest {
         final int honeyBottleNb = MIN + (int)(Math.random() * ((16 - MIN) + 1));
         addItemsStack(itemsList, Material.HONEY_BOTTLE, 4, 16, honeyBottleNb);
 
-        Inventory inv = server.createInventory(null, InventoryType.CHEST, "Expected", 54);
+        Chest chest = new ChestMock(Material.OAK_LOG);
+        Inventory inv = server.createInventory(chest, InventoryType.CHEST, "Expected", 54);
         inv.clear();
         ItemStack[] i = itemsList.toArray(ItemStack[]::new);
     

@@ -58,8 +58,7 @@ public class ChestSortingListener implements Listener{
             //Bukkit.getLogger().info(items.toString());
         }
 
-        inv.clear();
-
+        //inv.clear();
         ItemStack[] i = items.toArray(ItemStack[]::new);
     
         inv.setContents(i);
