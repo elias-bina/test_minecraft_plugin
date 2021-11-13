@@ -364,7 +364,7 @@ public class ChestSortingListenerTest {
     
         inv.setContents(i);
 
-        sortingListener.sortInventory(inv, false); // WTF null ??????? Only when use built-in sort but sort by name seems to work
+        sortingListener.sortInventory(inv, false); // WTF null ??????? Only when use built-in sort but sort by name function seems to work
 
         List<ItemStack> actual =  Arrays.asList(inv.getContents());
         List<ItemStack> expected = new ArrayList<>();
@@ -471,7 +471,8 @@ public class ChestSortingListenerTest {
 
         InventoryView transaction = player.openInventory(inv);
         InventoryOpenEvent event = new InventoryOpenEvent(transaction);
-        sortingListener.onInventoryClick(event);
+        sortingListener.onInventoryClick(event); // This seems not to run the sort algorithm even if the inventory is a chest one, 
+                                                 // its size is > 5 and the player creating making the event has it's sort variable set to true
 
         List<ItemStack> actual =  Arrays.asList(inv.getContents());
         List<ItemStack> expected = new ArrayList<>();
