@@ -4,9 +4,6 @@ name: "test-minecraft-plugin"
 api-version: "1.17"
 
 commands:
-   uwu:
-      description: Donne du diams + brique lol
-      usage: /uwu
    sortchest:
       description: Active/Désactive le tri des coffres
       usage: "Usage : /sortchest [true|false]"

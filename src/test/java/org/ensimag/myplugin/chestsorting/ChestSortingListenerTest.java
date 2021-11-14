@@ -549,6 +549,47 @@ public class ChestSortingListenerTest {
         Assertions.assertEquals(expected, actual);
     }
 
+    @Test 
+    @DisplayName("Creating chest listener instance")
+    void testListenerCreated() {
+        
+        ChestSortingListener instance = ChestSortingListener.getInstance();
+
+        Assertions.assertNotNull(instance);
+    }
+
+    @Test
+    @DisplayName("Compress a large chest")
+    void testCompressing() {
+
+        List<ItemStack> itemsList = new ArrayList<>();
+        
+        addItemsStack(itemsList, Material.OAK_LOG, 54, 1, 1);
+
+
+        Chest chest = new ChestMock(Material.OAK_LOG);
+        Inventory inv = server.createInventory(chest, InventoryType.CHEST, "Expected", 54);
+        inv.clear();
+        ItemStack[] i = itemsList.toArray(ItemStack[]::new);
+    
+        inv.setContents(i);
+
+        sortingCommand.onCommand(player, Objects.requireNonNull(plugin.getCommand("sortchest")),"sortchest", new String[]{"true"});
+
+        InventoryView transaction = player.openInventory(inv);
+        InventoryOpenEvent event = new InventoryOpenEvent(transaction);
+        sortingListener.onInventoryClick(event);
+
+        List<ItemStack> actual =  Arrays.asList(inv.getContents());
+        List<ItemStack> expected = new ArrayList<>();
+
+        // First two lines
+        addItemsStack(expected, Material.OAK_LOG, 1, 54, 54);
+
+        addItemsStack(expected, null, 53, 0, 0);
+
+        Assertions.assertEquals(expected, actual);
+    }
 
 
 
@@ -568,8 +609,18 @@ public class ChestSortingListenerTest {
     }
 
     void addItemsStack(List<ItemStack> list, Material type, int StackNumber, int stackMax, int lastStackAmount){
-        for(int i = 0; i < StackNumber - 1; i++) list.add(new ItemStack(type, stackMax));
-        list.add(new ItemStack(type, lastStackAmount));
+        for(int i = 0; i < StackNumber - 1; i++){
+            if(type != null){
+                list.add(new ItemStack(type, stackMax));
+            } else {
+                list.add(null);
+            }
+        }
+        if(type != null){
+            list.add(new ItemStack(type, lastStackAmount));
+        } else {
+            list.add(null);
+        }
     }
 
 }

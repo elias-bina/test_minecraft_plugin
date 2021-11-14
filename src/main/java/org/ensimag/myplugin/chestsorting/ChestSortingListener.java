@@ -151,9 +151,7 @@ public class ChestSortingListener implements Listener{
                 while(itemList.size() > INVENTORY_LINE_SIZE && lineCompletion == 0 && invLine < maxLine){
                     for(int i = 0; i<INVENTORY_LINE_SIZE; i++){
                         moveFirstItemStack(itemList, items);
-                        lineCompletion++;
                     }
-                    lineCompletion = 0;
                     invLine++;
                 }
 
@@ -181,11 +179,10 @@ public class ChestSortingListener implements Listener{
         int actualSlot = 0;
         for(List<ItemStack> itemList : itemLists){
             int size = itemList.size();
-            if(size > 0 && actualSlot < inventorySize){
+            if(actualSlot < inventorySize){
                 for(int i = 0; i < size; i++){
                     while(items.get(actualSlot) != null) actualSlot++;
                     moveFirstItemStack(itemList, items, actualSlot);
-                    actualSlot++;
                 }
             }
         }
