@@ -157,7 +157,7 @@ public class ChestSortingListener implements Listener{
 
                 int size = itemList.size();
                 // Complète la ligne avec une liste d'objets pas trop grande
-                if(size + lineCompletion <= INVENTORY_LINE_SIZE && size > 0 && invLine < maxLine){
+                if(size + lineCompletion <= INVENTORY_LINE_SIZE && invLine < maxLine){
                     for(int i = 0; i<size; i++){
                         moveFirstItemStack(itemList, items);
                         lineCompletion++;
