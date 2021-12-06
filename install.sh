@@ -1,3 +1,3 @@
-git pull
+lgit pull
 mvn package
-cp ./target/*.jar ../../serveur.test/plugins/
+cp ./target/*.jar ../../test_serveur/1.18/plugins
