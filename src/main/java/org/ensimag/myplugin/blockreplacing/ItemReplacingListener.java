@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,7 +33,8 @@ public class ItemReplacingListener implements Listener{
     @EventHandler
     public void onBlockPlaced(BlockPlaceEvent event){
         // Looks if the hand is empty
-        if(event.getItemInHand().getAmount() == 1 && event.getBlockPlaced().getType().equals(event.getItemInHand().getType())){
+        if(event.getItemInHand().getAmount() == 1 && event.getBlockPlaced().getType().equals(event.getItemInHand().getType()) &&
+           event.getPlayer().getGameMode() != GameMode.CREATIVE){
             
             
             replaceItem(event.getItemInHand(), event.getHand(), event.getPlayer());
