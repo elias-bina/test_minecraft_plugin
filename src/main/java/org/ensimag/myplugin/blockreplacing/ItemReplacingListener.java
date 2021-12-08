@@ -41,10 +41,10 @@ public class ItemReplacingListener implements Listener{
 
     @EventHandler
     public void onPlayerItemBreak(PlayerItemBreakEvent event){
-        //TODO: Fix shields (wtf ?)
-        if(event.getBrokenItem().getType() != Material.SHIELD){
-            replaceItem(event.getBrokenItem(), event.getPlayer());
-        }
+        //TODO: Fix shields (wtf ?) (And fix tools in general)
+        // if(event.getBrokenItem().getType() != Material.SHIELD){
+        //     replaceItem(event.getBrokenItem(), event.getPlayer());
+        // }
     }
 
     @EventHandler
