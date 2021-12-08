@@ -1,3 +1,3 @@
 git pull
 mvn package
-cp ./target/*.jar ../../serveur.test/plugins/
+cp ./target/*.jar ../../test_serv/1.18/plugins
